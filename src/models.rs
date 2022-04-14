@@ -5,9 +5,9 @@ use crate::schema::user_info;
 
 #[derive( Deserialize, Serialize, Queryable)]
 pub struct UserInfo{
-    id: i32,
-    name: String,
-    password: String
+    pub id: i32,
+    pub name: String,
+    pub password: String
 }
 
 #[derive(Insertable)]
