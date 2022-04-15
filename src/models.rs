@@ -1,5 +1,6 @@
 use serde::{Deserialize, Serialize};
 use crate::schema::user_info;
+use crate::schema::post;
 
 
 
@@ -39,4 +40,25 @@ pub struct Post{
 pub struct PostTitles{
     pub user_id: i32,
     pub post_title: String,
+}
+
+#[derive( Deserialize, Serialize, Queryable)]
+pub struct PostContents{
+    pub user_id: i32,
+    pub post_title: String,
+    pub post_content: String,
+}
+
+#[derive(Serialize, Deserialize, Insertable)]
+#[table_name="post"]
+pub struct NewPost <'a>{
+    pub title: & 'a str,
+    pub content: & 'a str,
+    pub user_id: i32,
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct PostJson{
+    pub title: String,
+    pub content: String,
 }

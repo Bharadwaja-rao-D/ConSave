@@ -11,7 +11,7 @@ use diesel::{r2d2::ConnectionManager, PgConnection};
 
 pub type Pool = r2d2::Pool<ConnectionManager<PgConnection>>;
 
-use routes::{index, signin, signup, display_post, display_post_titles};
+use routes::{index, signin, signup, display_post, display_post_titles, insert_post};
 
 
 #[actix_web::main]
@@ -38,6 +38,11 @@ async fn main() -> std::io::Result<()>{
             .route(web::post().to(signup))
             )
         //TODO: try using scope for these handlers
+        .service(
+            web::resource("/post/{user_id}/insert")
+            .guard(guard::Header("content-type", "application/json"))
+            .route(web::post().to(insert_post))
+            )
         .service(
             web::resource("/post/{user_id}")
             .guard(guard::Header("content-type", "application/json"))
