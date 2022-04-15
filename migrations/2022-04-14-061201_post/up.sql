@@ -10,5 +10,5 @@ create table post(
 	post_id serial primary key,
 	title text not null,
 	content text not null,
-	user_id int references user_info(id)
+	user_id int references user_info(id) not null
 );

@@ -3,6 +3,7 @@ use crate::schema::user_info;
 
 
 
+//for select queries
 #[derive( Deserialize, Serialize, Queryable)]
 pub struct UserInfo{
     pub id: i32,
@@ -10,6 +11,7 @@ pub struct UserInfo{
     pub password: String
 }
 
+//for insertion opeartions
 #[derive(Insertable)]
 #[table_name="user_info"]
 pub struct NewUserInfo <'a>{
@@ -17,6 +19,7 @@ pub struct NewUserInfo <'a>{
     pub password: &'a str
 }
 
+//for transfer between functions
 #[derive(Serialize, Deserialize)]
 pub struct UserJson {
     pub name: String,
@@ -30,4 +33,10 @@ pub struct Post{
     pub content: String,
     pub user_id: i32
 
+}
+
+#[derive( Deserialize, Serialize, Queryable)]
+pub struct PostTitles{
+    pub user_id: i32,
+    pub post_title: String,
 }

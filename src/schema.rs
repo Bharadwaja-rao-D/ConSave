@@ -3,7 +3,7 @@ table! {
         post_id -> Int4,
         title -> Text,
         content -> Text,
-        user_id -> Nullable<Int4>,
+        user_id -> Int4,
     }
 }
 

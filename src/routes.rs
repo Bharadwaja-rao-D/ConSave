@@ -1,5 +1,7 @@
 use actix_web::{web, HttpResponse};
-use crate::{Pool, models::UserJson, functions::{add_user, login_user}};
+use crate::{Pool, models::UserJson};
+use crate::functions::user::{login_user, add_user};
+use crate::functions::post;
 
 pub async fn index()  -> std::io::Result<HttpResponse>{
     Ok(HttpResponse::Ok().body("Index page"))
@@ -12,6 +14,12 @@ pub async fn signin(pool: web::Data<Pool>, user_info: web::Json<UserJson>)  -> s
 pub async fn signup(pool: web::Data<Pool>, user_info: web::Json<UserJson>)  -> std::io::Result<HttpResponse>{
     let user =  add_user(pool.get().unwrap(), user_info.into_inner());
     return Ok(HttpResponse::Ok().json(user));
+}
+
+pub async fn display_post_titles(pool: web::Data<Pool>, path: web::Path<i32>)  -> std::io::Result<HttpResponse>{
+
+    let titles = post::display_posts(pool.get().unwrap(), path.into_inner());
+    return Ok(HttpResponse::Ok().json(titles));
 }
 
 pub async fn display_post(pool: web::Data<Pool>, path: web::Path<i32>)  -> std::io::Result<HttpResponse>{
