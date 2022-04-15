@@ -15,6 +15,5 @@ pub async fn signup(pool: web::Data<Pool>, user_info: web::Json<UserJson>)  -> s
 }
 
 pub async fn display_post(pool: web::Data<Pool>, path: web::Path<i32>)  -> std::io::Result<HttpResponse>{
-    let res = pool.get().unwrap();
     Ok(HttpResponse::Ok().body(format!("Path: {}", path.into_inner())))
 }

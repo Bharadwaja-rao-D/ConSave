@@ -22,3 +22,12 @@ pub struct UserJson {
     pub name: String,
     pub password: String
 }
+
+#[derive( Deserialize, Serialize, Queryable)]
+pub struct Post{
+    pub id: i32,
+    pub title: String,
+    pub content: String,
+    pub user_id: i32
+
+}

@@ -1,6 +1,6 @@
 table! {
-    post (id) {
-        id -> Int4,
+    post (post_id) {
+        post_id -> Int4,
         title -> Text,
         content -> Text,
         user_id -> Nullable<Int4>,

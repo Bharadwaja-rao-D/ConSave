@@ -7,7 +7,7 @@ create table user_info(
 );
 
 create table post(
-	id serial primary key,
+	post_id serial primary key,
 	title text not null,
 	content text not null,
 	user_id int references user_info(id)

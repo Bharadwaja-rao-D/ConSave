@@ -1,3 +1,4 @@
+use crate::schema::post::dsl::*;
 use crate::schema::user_info::dsl::*;
 use diesel::prelude::*;
 use diesel::r2d2::ConnectionManager;
@@ -20,16 +21,15 @@ pub fn add_user(
     };
 
     match search_user(&db_pool, &new_user) {
-        Some(already_present) => {return already_present},
+        Some(already_present) => return already_present,
         None => {
             //insert one and send him
             return diesel::insert_into(user_info)
                 .values(&new_user_info)
                 .get_result(&db_pool)
                 .expect("error inserting");
-        },
+        }
     }
-
 }
 
 pub fn login_user(
@@ -37,17 +37,24 @@ pub fn login_user(
     find_user: UserJson,
 ) -> UserInfo {
     let found_user = match search_user(&db_pool, &find_user) {
-        Some(found_user) => {found_user},
+        Some(found_user) => found_user,
         None => {
-            return UserInfo{ id: -1, name: "notfound".to_owned(), password: "notfound".to_owned() };
+            return UserInfo {
+                id: -1,
+                name: "notfound".to_owned(),
+                password: "notfound".to_owned(),
+            };
         }
     };
 
     if found_user.password == find_user.password {
         return found_user;
-    }
-    else {
-        return UserInfo{ id: -1, name: "notfound".to_owned(), password: "notfound".to_owned() };
+    } else {
+        return UserInfo {
+            id: -1,
+            name: "notfound".to_owned(),
+            password: "notfound".to_owned(),
+        };
     }
 }
 
@@ -60,3 +67,19 @@ fn search_user(
         Err(_) => return None,
     }
 }
+
+/*
+//performs inner join on the user and post table and returns vector of all the posts return by the
+//user
+pub fn display_posts(
+    db_pool: &PooledConnection<ConnectionManager<PgConnection>>,
+    user_name: String,
+) -> Vec<(String, String)> {
+
+    let something = user_info
+        .inner_join(post.on(user_id.eq(id)))
+        .select((name, title))
+        .load(db_pool)
+        .unwrap();
+}
+*/
